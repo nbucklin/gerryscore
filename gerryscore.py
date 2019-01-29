@@ -1,7 +1,7 @@
 import pandas as pd
 
 # Importing data
-d = r'/Users/npbuckli/GitHub/gerryscore/Excel work.xlsx'
+d = r'/Users/npbuckli/GitHub/gerryscore/gerryscore/Excel work.xlsx'
 data_raw = pd.read_excel(d,sheet='data')
 
 # Filtering out stuff we don't need
@@ -18,5 +18,28 @@ data = data[(data['party'] == 'democrat') | (data['party'] == 'republican')]
 data = data[['state','district','party','candidatevotes']]
 
 # Transposing D/R 
-test = pd.pivot_table(data,values='candidatevotes',index=['state','district'],columns='party')
+data = pd.pivot_table(data,values='candidatevotes',index=['state','district'],columns='party').reset_index()
 
+# Sorting
+data = data.sort_values(by=['state','district'])
+
+# Summing votes
+data['totalvotes'] = data['democrat'] + data['republican']
+data['votestowin'] = data['totalvotes'] / 2
+
+# Calculatng wasted votes
+data['rwasted'] = data['republican'] - data['votestowin']
+# Find where it is different
+mask = data['democrat'] >= data['republican']
+# Set those rows to another value
+data['rwasted'][mask] = data['republican']
+
+
+# myseries = []
+# for idx, row in data.iterrows():
+#    if row['democrat'] >= row['republican']:
+#        myseries.append(row['republican'])
+#    else:
+#        myseries.append(row['republican'] - row['votestowin'])
+#
+# data['rwasted'] = pd.Series(myseries)
