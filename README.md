@@ -11,5 +11,5 @@ Data was obtained from Princenton University Library's Election and Voting Data 
 https://libguides.princeton.edu/elections 
 
 ### Results
-![alt text](https://github.com/nbucklin/gerryscore/Bar Chart.png)
+![alt text](https://github.com/nbucklin/gerryscore/Bar%Chart.png)
 
